@@ -4,23 +4,23 @@ const uuid = require('uuid/v4')
 const env = process.env.NODE_ENV || 'development'
 const db = path.join(__dirname, '..', 'db', `${env}.json`)
 
-function _read () {
+function _read() {
   return JSON.parse(fs.readFileSync(db, 'utf-8'))
 }
 
-function _write (obj) {
+function _write(obj) {
   fs.writeFileSync(db, JSON.stringify(obj))
 }
 
-function _byId (id) {
+function _byId(id) {
   return (el) => el.id === id
 }
 
-function get () {
+function get() {
   return _read()
 }
 
-function create (body) {
+function create(body) {
   const id = uuid()
   const posts = _read()
   const post = { id, ...body }
@@ -31,12 +31,12 @@ function create (body) {
   return post
 }
 
-function find (id) {
+function find(id) {
   const content = _read()
   return content.find(_byId(id))
 }
 
-function destroy (id) {
+function destroy(id) {
   const content = _read()
   const post = content.find(_byId(id))
   const index = content.indexOf(post)
@@ -47,9 +47,10 @@ function destroy (id) {
   return post
 }
 
-function patch (id, patch) {
+function patch(id, patch) {
   const post = destroy(id)
   const content = _read()
+  // Object.assign ?!
   const newPost = Object.assign(post, patch)
 
   content.push(newPost)
@@ -59,5 +60,9 @@ function patch (id, patch) {
 }
 
 module.exports = {
-  get, create, find, destroy, patch
+  get,
+  create,
+  find,
+  destroy,
+  patch
 }
