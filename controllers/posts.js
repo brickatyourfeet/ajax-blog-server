@@ -1,32 +1,50 @@
 const { Post } = require('../models')
-const fields = [ 'title', 'content' ]
+const fields = ['title', 'content']
 
-function get (req, res, next) {
-  const posts = Post.get()
-  res.json({ posts })
+
+
+
+
+function get(req, res, next) {
+  Post.get().then(posts => {
+    res.json({ posts })
+  })
 }
 
-function create (req, res, next) {
+
+
+
+
+
+function create(req, res, next) {
   const result = Post.create(req.body)
   res.status(201).json({ post: result })
 }
 
-function show (req, res, next) {
-  const result = Post.find(req.params.id)
-  res.json({ post: result })
+
+
+
+function show(req, res, next) {
+  Post.find(req.params.id).then(post => {
+    res.json({ post: post })
+  })
+
 }
 
-function destroy (req, res, next) {
+
+
+
+function destroy(req, res, next) {
   const result = Post.destroy(req.params.id)
   res.json({ post: result })
 }
 
-function patch (req, res, next) {
+function patch(req, res, next) {
   const result = Post.patch(req.params.id, req.body)
   res.json({ post: result })
 }
 
-function exists (req, res, next) {
+function exists(req, res, next) {
   const post = Post.find(req.params.id)
 
   if (!post) {
@@ -38,7 +56,7 @@ function exists (req, res, next) {
   return next()
 }
 
-function prune (req, res, next) {
+function prune(req, res, next) {
   Object.keys(req.body).forEach(key => {
     if (!fields.includes(key)) delete req.body[key]
   })
@@ -46,7 +64,7 @@ function prune (req, res, next) {
   next()
 }
 
-function complete (req, res, next) {
+function complete(req, res, next) {
   const errors = fields.filter(field => !req.body[field])
     .map(key => `${key} is a required field`)
 
@@ -60,6 +78,10 @@ function complete (req, res, next) {
 }
 
 module.exports = {
-  get, create, show, destroy, patch,
+  get,
+  create,
+  show,
+  destroy,
+  patch,
   validations: { exists, prune, complete }
 }

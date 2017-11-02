@@ -3,6 +3,7 @@ const path = require('path')
 const uuid = require('uuid/v4')
 const env = process.env.NODE_ENV || 'development'
 const db = path.join(__dirname, '..', 'db', `${env}.json`)
+const knex = require('../db/db')
 
 function _read() {
   return JSON.parse(fs.readFileSync(db, 'utf-8'))
@@ -16,9 +17,25 @@ function _byId(id) {
   return (el) => el.id === id
 }
 
+
+
+
+
+
+
+
+
 function get() {
-  return _read()
+  return knex('posts')
 }
+
+
+
+
+
+
+
+
 
 function create(body) {
   const id = uuid()
@@ -31,10 +48,19 @@ function create(body) {
   return post
 }
 
+
+
+
+
 function find(id) {
-  const content = _read()
-  return content.find(_byId(id))
+  return knex('posts').where('id', id).first()
 }
+
+
+
+
+
+
 
 function destroy(id) {
   const content = _read()
