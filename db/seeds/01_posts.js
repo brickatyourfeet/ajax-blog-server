@@ -4,8 +4,8 @@ exports.seed = function(knex, Promise) {
     .then(function() {
       // Inserts seed entries
       return knex('posts').insert([
-        { id: 1, title: 'hello woild', content: 'crippity crap flibbity floop' }
-        // { id: 2, title: 'hello woilds', content: 'crippity crap flibbity floop klerpitty klarp' }
+        { id: 1, title: 'hello woild', content: 'crippity crap flibbity floop' },
+        { id: 2, title: 'hello woilds', content: 'crippity crap flibbity floop klerpitty klarp' }
 
       ])
     }).then(() => {
